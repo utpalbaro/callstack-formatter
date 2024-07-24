@@ -27,5 +27,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // Copy the content to clipboard
         copyToClipboardAsync(output.innerText);
-    })
+    });
+    
+    pasteArea.addEventListener('keydown', e => {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            // A variable so that we can control the tabs or spaces if needed later
+            let tabChar = '    ';
+            
+            const caretPosition = pasteArea.selectionStart;
+            const newCaretPosition = caretPosition + tabChar.length;
+            pasteArea.value = pasteArea.value.substring(0, caretPosition) + tabChar + pasteArea.value.substring(caretPosition, pasteArea.value.length);
+            pasteArea.selectionStart = newCaretPosition;
+        }
+    });
 });
