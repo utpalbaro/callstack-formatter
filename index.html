@@ -9,9 +9,13 @@
 
 <body>
     <div class="container">
-        <textarea name="pastearea" id="pastearea" class="child" autofocus></textarea>
-        <div class="child splitter"></div>
-        <pre class="child" id="output" tabindex="0"></pre>
+        <div class="child">
+            <textarea name="pastearea" id="pastearea" autofocus placeholder="Paste call stack here"></textarea>
+        </div>
+        <div class="child" id="splitter"></div>
+        <div class="child">
+            <pre id="output" tabindex="0"></pre>
+        </div>
     </div>
 
     <script type="module" src="script.js"></script>

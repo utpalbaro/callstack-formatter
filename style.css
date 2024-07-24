@@ -7,9 +7,10 @@
 
 .child {
     flex-grow: 1;
+    border: 1px solid grey;
 }
 
-.splitter {
+#splitter {
     flex-grow: 0;
     width: 0.3rem;
     background-color: gray;
@@ -21,9 +22,16 @@
     resize: none;
     white-space: nowrap;
     overflow: auto;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 #output {
-    padding: 0 1rem;
+    padding: 1rem;
     font-size: large;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
 }
