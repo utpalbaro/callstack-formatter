@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    border: 1px solid violet;
+    height: 80vh;
+    align-items: stretch;
+}
+
+.child {
+    flex-grow: 1;
+}
+
+.splitter {
+    flex-grow: 0;
+    width: 0.3rem;
+    background-color: gray;
+    cursor: ew-resize;
+}
+
+#pastearea {
+    padding: 1rem;
+    resize: none;
+}
+
+#output {
+    padding: 0 1rem;
+}
