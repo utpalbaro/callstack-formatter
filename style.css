@@ -19,8 +19,11 @@
 #pastearea {
     padding: 1rem;
     resize: none;
+    white-space: nowrap;
+    overflow: auto;
 }
 
 #output {
     padding: 0 1rem;
+    font-size: large;
 }
