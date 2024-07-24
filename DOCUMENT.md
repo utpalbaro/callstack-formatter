@@ -7,3 +7,4 @@ A program that takes call stack on one side and outputs call tree from another s
 ## The UI
 - [x] A paste textarea on one side and div on the another
 - [x] Copy content automatically to clipboard after successful parsing
+- [ ] Append or new mode in pasting

@@ -10,10 +10,45 @@
 <body>
     <div class="container">
         <div class="child">
+            <div class="toolbar">
+                <div>
+                    <label for="parser-select">Parser</label>
+                    <select name="parser-select" id="parser-select">
+                        <option value="auto">Auto</option>
+                        <option value="vs-c++">Visual Studio C++</option>
+                    </select>
+                </div>
+                <div class="btn-group">
+                    <button title="Paste callstack">Paste</button>
+                    <button title="Clear input">Clear</button>
+                </div>
+            </div>
             <textarea name="pastearea" id="pastearea" autofocus placeholder="Paste call stack here"></textarea>
         </div>
         <div class="child" id="splitter"></div>
         <div class="child">
+            <div class="toolbar">
+                <div>
+                    <label for="formatter-select">Formatter</label>
+                    <select name="formatter-select" id="formatter-select">
+                        <option value="simple-indented">Simple Indented</option>
+                        <option value="l-indented">L-Indented</option>
+                        <option value="html-ul">HTML UL</option>
+                        <option value="html-tree">HTML Tree</option>
+                    </select>
+                </div>
+                <div title="Append to the preexisting output instead of clearing">
+                    <label for="append-output-switch">Append</label>
+                    <label class="switch">
+                        <input type="checkbox" id="append-output-switch">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="btn-group">
+                    <button title="Copy output">Copy</button>
+                    <button title="Clear output">Clear</button>
+                </div>
+            </div>
             <pre id="output" tabindex="0"></pre>
         </div>
     </div>
