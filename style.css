@@ -144,7 +144,7 @@ input:checked+.slider:before {
     box-sizing: border-box;
 }
 
-#output {
+#output > * {
     padding: 1rem;
     font-size: large;
     margin: 0;

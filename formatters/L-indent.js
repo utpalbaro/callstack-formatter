@@ -35,11 +35,16 @@ export class LIndentFormatter {
     /**
      * 
      * @param {Object} funcMap 
-     * @param {HTMLElement} parentElement 
+     * @param {HTMLElement} parentElement A div to output to
      */
     static format(funcMap, parentElement) {
         const root = funcMap[0];
         const text = LIndentFormatter._format(root, funcMap);
-        parentElement.innerText = text;
+
+        // Create a <pre> element and assign it to the parentElement
+        const pre = document.createElement('pre');
+        pre.innerHTML = text;
+
+        parentElement.appendChild(pre);
     }
 }
