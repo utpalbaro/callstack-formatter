@@ -1,7 +1,23 @@
 export class LIndentFormatter {
-    static paddingStr = '    ';
-    static markerStr = '|_  ';
-    static branchStr = '|';
+    /**
+     * 
+     * @param {Object} options 
+     */
+    constructor(options) {
+        this.options = {
+            paddingstring   : '    ',
+            markerstring    : '|_  ',
+            branchstring    : '|'
+        };
+
+        if (options) {
+            this.options = Object.assign(this.options, options)
+        }
+
+        this.options.paddingstring = this.options.paddingstring;
+        this.options.markerstring = this.options.markerstring;
+        this.options.branchstring = this.options.branchstring;
+    }
 
     /**
      * 
@@ -10,15 +26,15 @@ export class LIndentFormatter {
      * @param {string[]} lines 
      * @returns string 
      */
-    static _format(item, funcMap, lines, depth, parentLineIndex) {
+    _format(item, funcMap, lines, depth, parentLineIndex) {
         let indentStr = '';
         let marker = '';
 
         // If depth is 0, means it is root element and neither padding
         // nor marker is needed
         if (depth) {
-            indentStr = `${this.paddingStr.repeat(depth - 1)}`;
-            marker = this.markerStr; 
+            indentStr = `${this.options.paddingstring.repeat(depth - 1)}`;
+            marker = this.options.markerstring; 
         }
 
         // Print '|' from the line next to parent, to this current line
@@ -29,8 +45,8 @@ export class LIndentFormatter {
         for (let i = parentLineIndex + 1; i < lines.length; ++i) {
             const p1 = lines[i].substring(0, colIndex);
 
-            const p2 = lines[i].substring(colIndex + this.branchStr.length);
-            lines[i] = p1 + this.branchStr + p2;
+            const p2 = lines[i].substring(colIndex + this.options.branchstring.length);
+            lines[i] = p1 + this.options.branchstring + p2;
         }
 
         // This is the item, simply print |_  item.name and push to lines array
@@ -53,11 +69,11 @@ export class LIndentFormatter {
     }
 
     /**
-     * 
+     * Appends the output to parentElement
      * @param {Object} funcMap 
      * @param {HTMLElement} parentElement A div to output to
      */
-    static format(funcMap, parentElement) {
+    format(funcMap, parentElement) {
         const root = funcMap[0];
         let lines = [];
         this._format(root, funcMap, lines, 0, -1);
