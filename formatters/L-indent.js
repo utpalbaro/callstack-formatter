@@ -40,11 +40,15 @@ export class LIndentFormatter {
         if (!item.children || !item.children.length)
             return;
 
+        
+        // Get the current line index at this point, cos lines.length
+        // gonna keep changing (increasing) in this loop 
+        const currentLineIndex = lines.length - 1;
         ++depth;
         for (let id of item.children) {
             const child = funcMap[id];
 
-            this._format(child, funcMap, lines, depth, ++parentLineIndex);
+            this._format(child, funcMap, lines, depth, currentLineIndex);
         }
     }
 
