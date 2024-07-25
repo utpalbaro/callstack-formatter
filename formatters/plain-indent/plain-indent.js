@@ -1,7 +1,15 @@
 export class PlainIndentFormatter {
-    static _depth = 0;
-    static repeatValue = 4;
-    static indentChar = ' ';
+    constructor(options) {
+        this.options = {
+            paddingstring   : '    '
+        };
+
+        if (options) {
+            this.options = Object.assign(this.options, options)
+        }
+
+        this._depth = 0;
+    }
 
     /**
      * Returns the formatted string
@@ -9,7 +17,7 @@ export class PlainIndentFormatter {
      * @param {Object} funcMap
      * @returns string 
      */
-    static _format(item, funcMap) {
+    _format(item, funcMap) {
         let formatStr = `${item.name}\n`;
 
         // If item has no children, nothing to do
@@ -20,7 +28,7 @@ export class PlainIndentFormatter {
         // Increase the depth value before entering this loop
         ++this._depth;
         
-        const indentStr = this.indentChar.repeat(this._depth*this.repeatValue);
+        const indentStr = this.options.paddingstring.repeat(this._depth);
         for (let id of item.children) {
             const child = funcMap[id];
             formatStr += `${indentStr}${this._format(child, funcMap)}`;
@@ -37,9 +45,12 @@ export class PlainIndentFormatter {
      * @param {Object} funcMap 
      * @param {HTMLElement} parentElement 
      */
-    static format(funcMap, parentElement) {
+    format(funcMap, parentElement) {
+        // reset the depth
+        this._depth = 0;
+
         const root = funcMap[0];
-        const text = PlainIndentFormatter._format(root, funcMap);
+        const text = this._format(root, funcMap);
         // Create a <pre> element and assign it to the parentElement
         const pre = document.createElement('pre');
         pre.innerHTML = text;

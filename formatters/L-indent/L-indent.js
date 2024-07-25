@@ -13,10 +13,6 @@ export class LIndentFormatter {
         if (options) {
             this.options = Object.assign(this.options, options)
         }
-
-        this.options.paddingstring = this.options.paddingstring;
-        this.options.markerstring = this.options.markerstring;
-        this.options.branchstring = this.options.branchstring;
     }
 
     /**
