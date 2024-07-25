@@ -1,3 +1,4 @@
+import { LIndentFormatter } from "./formatters/L-indent.js";
 import { PlainIndentFormatter } from "./formatters/plain-indent.js";
 import { VSStackParser } from "./parsers/vs-parser.js";
 
@@ -19,11 +20,27 @@ window.addEventListener('DOMContentLoaded', () => {
         if (!funcMap)
             return;
 
+        // Test code
+        funcMap[1].children = [2,5];
+        Object.assign(funcMap, {
+            5: {
+                name: 'DummyFunc',
+                args: 'const int a',
+                children: [6]
+            },
+            6 : {
+                name: 'DummyFunc2',
+                args: 'const int b',
+                children: []
+            }
+        })
+        // Test code ends
+
         console.log(funcMap);
 
         // get the output element
         const output = document.getElementById('output');
-        PlainIndentFormatter.format(funcMap, output);
+        LIndentFormatter.format(funcMap, output);
 
         // Copy the content to clipboard
         copyToClipboardAsync(output.innerText);

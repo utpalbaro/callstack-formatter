@@ -1,35 +1,51 @@
 export class LIndentFormatter {
-    static _depth = 0;
-    static repeatValue = 4;
-    static indentChar = ' ';
+    static paddingStr = '    ';
+    static markerStr = '|_  ';
+    static branchStr = '|';
 
     /**
-     * Returns the formatted string
+     * 
      * @param {Object} item
      * @param {Object} funcMap
+     * @param {string[]} lines 
      * @returns string 
      */
-    static _format(item, funcMap) {
-        let formatStr = `${item.name}\n`;
+    static _format(item, funcMap, lines, depth, parentLineIndex) {
+        let indentStr = '';
+        let marker = '';
 
-        // If item has no children, nothing to do
-        if (!item.children || !item.children.length) {
-            return formatStr;
+        // If depth is 0, means it is root element and neither padding
+        // nor marker is needed
+        if (depth) {
+            indentStr = `${this.paddingStr.repeat(depth - 1)}`;
+            marker = this.markerStr; 
         }
 
-        // Increase the depth value before entering this loop
-        ++this._depth;
-        
-        const indentStr = this.indentChar.repeat((this._depth - 1)*this.repeatValue);
+        // Print '|' from the line next to parent, to this current line
+        // First find out which column it needs to go
+        const colIndex = indentStr.length;
+
+        // Now print '|' in every line below parent
+        for (let i = parentLineIndex + 1; i < lines.length; ++i) {
+            const p1 = lines[i].substring(0, colIndex);
+
+            const p2 = lines[i].substring(colIndex + this.branchStr.length);
+            lines[i] = p1 + this.branchStr + p2;
+        }
+
+        // This is the item, simply print |_  item.name and push to lines array
+        lines.push(`${indentStr}${marker}${item.name}`);
+
+        // Now about children
+        if (!item.children || !item.children.length)
+            return;
+
+        ++depth;
         for (let id of item.children) {
             const child = funcMap[id];
-            formatStr += `${indentStr}|_  ${this._format(child, funcMap)}`;
+
+            this._format(child, funcMap, lines, depth, ++parentLineIndex);
         }
-
-        // Decrement it back now that we're out
-        --this._depth;
-
-        return formatStr;
     }
 
     /**
@@ -39,8 +55,10 @@ export class LIndentFormatter {
      */
     static format(funcMap, parentElement) {
         const root = funcMap[0];
-        const text = LIndentFormatter._format(root, funcMap);
+        let lines = [];
+        this._format(root, funcMap, lines, 0, -1);
 
+        const text = lines.join('\n');
         // Create a <pre> element and assign it to the parentElement
         const pre = document.createElement('pre');
         pre.innerHTML = text;
