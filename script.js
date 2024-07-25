@@ -11,8 +11,17 @@ async function copyToClipboardAsync(text) {
 }
 
 class FormatterMgr {
+    static _instance = null;
+
     constructor() {
         this._formatters = {};
+    }
+
+    static getInstance() {
+        if (!FormatterMgr._instance)
+            FormatterMgr._instance = new FormatterMgr();
+
+        return FormatterMgr._instance;
     }
 
     loadFormatters() {
@@ -20,7 +29,7 @@ class FormatterMgr {
         this._formatters['plain-indent'] = new PlainIndentFormatter();
         this._formatters['l-indent'] = new LIndentFormatter();
 
-        // Temporary code starts
+        // @TODO Temporary code starts
         const valueMap = {
             'plain-indent': 'Plain Indented',
             'l-indent': 'L-Indented'
@@ -50,26 +59,44 @@ class FormatterMgr {
     }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    // Populate HTML formatters
-    const formatterMgr = new FormatterMgr();
-    formatterMgr.loadFormatters();
+function clearOutput() {
+    // If <pre> exists remove it
+    const opchild = document.querySelector('.output > pre');
+    if (opchild)
+        opchild.remove();
+}
 
+/**
+ * 
+ * @param {string} text 
+ * @returns 
+ */
+function parseCallStack(text) {
+    if (text.trim() === '')
+        return;
+
+    const funcMap = VSStackParser.parse(text);
+
+    if (!funcMap)
+        return;
+
+    // clear output first
+    clearOutput();
+
+    const output = document.getElementById('output');
+
+    // Format it now
+    const formatter = FormatterMgr.getInstance().getSelectedFormatter();
+    formatter.format(funcMap, output);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
     // Add on paste listener
     const pasteArea = document.getElementById('pastearea');
     pasteArea.addEventListener('paste', e => {
         const text = e.clipboardData.getData('text/plain');
-        const funcMap = VSStackParser.parse(text);
 
-        if (!funcMap)
-            return;
-
-        console.log(funcMap);
-
-        // get the output element
-        const output = document.getElementById('output');
-        const formatter = formatterMgr.getSelectedFormatter();
-        formatter.format(funcMap, output);
+        parseCallStack(text);
 
         // Copy the content to clipboard
         copyToClipboardAsync(output.innerText);
@@ -86,5 +113,20 @@ window.addEventListener('DOMContentLoaded', () => {
             pasteArea.value = pasteArea.value.substring(0, caretPosition) + tabChar + pasteArea.value.substring(caretPosition, pasteArea.value.length);
             pasteArea.selectionStart = newCaretPosition;
         }
+    });
+
+    // Populate HTML formatters
+    const formatterMgr = FormatterMgr.getInstance();
+    formatterMgr.loadFormatters();
+
+    // Add onselectionchange listener to the select element
+    const formatterSelect = document.getElementById('formatter-select');
+    formatterSelect.addEventListener('change', e => {
+        console.log(e.target.value);
+
+        // Format (if there's something on the paste area) when selection changes
+        const text = pasteArea.value;
+
+        parseCallStack(text);
     });
 });
