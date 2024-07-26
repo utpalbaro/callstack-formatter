@@ -14,7 +14,7 @@ export class VSStackParser {
             filename = m ? m[1] : '';
         }
 
-        regex = />*\s*(.+)!(.+)\((.+)\)\s*Line\s*(\d+)/g;
+        regex = />*\s*(.+)!(.+)\((.*)\)\s*Line\s*(\d+)/g;
         const m = regex.exec(lines[0]);
 
         if (!m)
