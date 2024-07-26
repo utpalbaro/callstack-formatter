@@ -14,13 +14,10 @@
                 <div>
                     <label for="parser-select">Parser</label>
                     <select name="parser-select" id="parser-select">
-                        <option value="auto">Auto</option>
-                        <option value="vs-c++">Visual Studio C++</option>
                     </select>
                 </div>
                 <div class="btn-group">
-                    <button title="Paste callstack">Paste</button>
-                    <button title="Clear input">Clear</button>
+                    <button id="input-clear" title="Clear input">Clear</button>
                 </div>
             </div>
             <textarea name="pastearea" id="pastearea" autofocus placeholder="Paste call stack here"></textarea>
@@ -33,16 +30,9 @@
                     <select name="formatter-select" id="formatter-select">
                     </select>
                 </div>
-                <div title="Append to the preexisting output instead of clearing">
-                    <label for="append-output-switch">Append</label>
-                    <label class="switch">
-                        <input type="checkbox" id="append-output-switch">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
                 <div class="btn-group">
-                    <button title="Copy output">Copy</button>
-                    <button title="Clear output">Clear</button>
+                    <button class="toggle-btn" title="Auto copy output to clipboard when pasted on the input side" id="output-autocopy">Auto Copy</button>
+                    <button id="output-clear" title="Clear output">Clear</button>
                 </div>
             </div>
             <div id="output" class="output" tabindex="0"></div>

@@ -40,8 +40,17 @@ select {
 .btn-group button {
     border-radius: 0;
     border: 1px solid black;
-    width: 4rem;
+    width: 6rem;
     padding: 0.2rem 0;
+    cursor: pointer;
+}
+
+.btn-group button:hover {
+    background-color: #d6d5d5;
+}
+
+.btn-group button:active {
+    background-color: #c0c0fe;
 }
 
 .btn-group button:not(:last-child) {
@@ -58,6 +67,10 @@ select {
 
 .btn-group button:only-child {
     border-radius: 4px;
+}
+
+.enabled {
+    background-color: #a4a4ff !important;
 }
 
 label.switch {

@@ -1,5 +1,5 @@
 export class VSStackParser {
-    static _getFuncInfo(lines) {
+    _getFuncInfo(lines) {
         const len = lines.length;
 
         if (len > 2 || len < 1)
@@ -33,7 +33,7 @@ export class VSStackParser {
      * 
      * @param {string} lines 
      */
-    static _removeEmptyLines(lines) {
+    _removeEmptyLines(lines) {
         const newLines = [];
         for (let line of lines) {
             if (line.trim() !== '')
@@ -48,10 +48,10 @@ export class VSStackParser {
      * @param {string} stack
      * @returns {Object | null} list
      */
-    static parse(stack) {
+    parse(stack) {
         // split into lines
         let lines = stack.split(/\r?\n/);
-        lines = VSStackParser._removeEmptyLines(lines);
+        lines = this._removeEmptyLines(lines);
 
         const funcMap = {};
         const funcList = [];
@@ -63,7 +63,7 @@ export class VSStackParser {
         while (i < lines.length) {
             if (i < lines.length - 1) {
                 if (lines[i+1].includes('at ')) {
-                    data = VSStackParser._getFuncInfo(lines.slice(i, i + 2));
+                    data = this._getFuncInfo(lines.slice(i, i + 2));
                     if (data)
                         funcList.push(data);
 
@@ -72,7 +72,7 @@ export class VSStackParser {
                 }
             }
 
-            data = VSStackParser._getFuncInfo(lines.slice(i, i + 1));
+            data = this._getFuncInfo(lines.slice(i, i + 1));
             if (data)
                 funcList.push(data);
             i += 1;
